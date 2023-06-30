@@ -7,22 +7,13 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-
-# Primeiro, copie apenas os arquivos .csproj para um diretório temporário
-COPY ["Api/Api.csproj", "tmp/Api/"]
-COPY ["Application/Application.csproj", "tmp/Application/"]
-COPY ["Domain/Domain.csproj", "tmp/Domain/"]
-COPY ["Infrastructure/Infrastructure.csproj", "tmp/Infrastructure/"]
-
-# Em seguida, restaure as dependências
-WORKDIR /src/tmp/Api
-RUN dotnet restore
-
-# Copie todos os arquivos do projeto para o diretório atual
-WORKDIR /src
+COPY ["Api/Api.csproj", "Api/"]
+COPY ["CrossCutting/CrossCutting.csproj", "CrossCutting/"]
+COPY ["Application/Application.csproj", "Application/"]
+COPY ["Domain/Domain.csproj", "Domain/"]
+COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+RUN dotnet restore "Api/Api.csproj"
 COPY . .
-
-# Compile o projeto
 WORKDIR "/src/Api"
 RUN dotnet build "Api.csproj" -c Release -o /app/build
 

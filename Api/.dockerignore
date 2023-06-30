@@ -1,9 +1,0 @@
-# Arquivos específicos de cada projeto
-**/bin/
-**/obj/
-
-# Excluir outros arquivos desnecessários
-.dockerignore
-.git
-.gitignore
-README.md

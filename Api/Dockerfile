@@ -1,23 +1,26 @@
-# Estágio de compilação
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-
-# Copie os arquivos de projeto e restaurar as dependências
+COPY ["Api.csproj", "Api/"]
+COPY ["../CrossCutting.csproj", "CrossCutting/"]
+COPY ["../Application.csproj", "Application/"]
+COPY ["../Domain.csproj", "Domain/"]
+COPY ["../Infrastructure.csproj", "Infrastructure/"]
+RUN dotnet restore "Api/Api.csproj"
 COPY . .
-RUN dotnet restore
+WORKDIR "/src/Api"
+RUN dotnet build "Api.csproj" -c Release -o /app/build
 
-# Compile a solução
-RUN dotnet build -c Release --no-restore
+FROM build AS publish
+RUN dotnet publish "Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-# Publicar os projetos da solução
-RUN dotnet publish -c Release --no-build --output /app
-
-# Estágio de execução
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
+FROM base AS final
 WORKDIR /app
-
-# Copie os arquivos publicados do estágio de compilação
-COPY --from=build /app .
-
-# Defina a entrada do contêiner
-ENTRYPOINT ["dotnet", "Api/Api.dll"]
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Api.dll"]

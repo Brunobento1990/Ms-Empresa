@@ -12,7 +12,7 @@ COPY ["CrossCutting.csproj", "CrossCutting/"]
 COPY ["Application.csproj", "Application/"]
 COPY ["Domain.csproj", "Domain/"]
 COPY ["Infrastructure.csproj", "Infrastructure/"]
-RUN dotnet restore "Api.csproj"
+RUN dotnet restore "Api/Api.csproj"
 COPY . .
 WORKDIR "/src/Api"
 RUN dotnet build "Api.csproj" -c Release -o /app/build

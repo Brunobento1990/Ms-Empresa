@@ -37,11 +37,9 @@ namespace CrossCutting.IoC
                 options.AddPolicy(name: "Mypolicy",
                                   policy =>
                                   {
-                                      policy.WithOrigins("*")
+                                      policy.AllowAnyOrigin()
                                           .AllowAnyMethod()
-                                          .WithHeaders(
-                                              HeaderNames.ContentType,
-                                              HeaderNames.Authorization);
+                                          .AllowAnyHeader();
                                   });
             });
 

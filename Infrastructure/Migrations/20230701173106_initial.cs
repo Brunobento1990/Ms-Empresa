@@ -229,6 +229,7 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Preco = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
+                    Quantidade = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
                     FuncionarioId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     ServicoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     DataDeCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false),

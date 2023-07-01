@@ -10,6 +10,7 @@ namespace Infrastructure.EntitiesConfig
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Preco).HasPrecision(14, 2);
+            builder.Property(e => e.Quantidade).HasPrecision(14, 2);
 
             builder.HasOne(x => x.Funcionario)
                 .WithMany(x => x.ServicosExecutados)

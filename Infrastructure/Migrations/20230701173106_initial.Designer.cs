@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MsContext))]
-    [Migration("20230630003103_initial")]
+    [Migration("20230701173106_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -357,6 +357,10 @@ namespace Infrastructure.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<decimal>("Preco")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)");
+
+                    b.Property<decimal>("Quantidade")
                         .HasPrecision(14, 2)
                         .HasColumnType("decimal(14,2)");
 

@@ -357,6 +357,10 @@ namespace Infrastructure.Migrations
                         .HasPrecision(14, 2)
                         .HasColumnType("decimal(14,2)");
 
+                    b.Property<decimal>("Quantidade")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)");
+
                     b.Property<Guid>("ServicoId")
                         .HasColumnType("char(36)");
 

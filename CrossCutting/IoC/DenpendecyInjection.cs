@@ -69,7 +69,7 @@ namespace CrossCutting.IoC
             ,IConfiguration configuration)
         {
 
-            var connectionString = configuration["ConnectionStrings:Ms-Empresa"];
+            var connectionString = configuration["ConnectionStrings:Api-db"];
             services.AddDbContext<MsContext>(opt =>
                 opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
                 b => b.MigrationsAssembly(typeof(MsContext).Assembly.FullName)));

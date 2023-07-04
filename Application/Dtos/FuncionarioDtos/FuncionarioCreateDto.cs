@@ -21,11 +21,11 @@ namespace Application.Dtos.FuncionarioDtos
         [Required]
         [Compare("Senha",ErrorMessage = "Senha inválida !")]
         public string ConfirmeSenha { get; set; } = string.Empty;
+        public bool AcessoAoSistema { get; set; } = true;
         public bool Adicionar { get; set; } = true;
         public bool Editar { get; set; } = true;
         public bool Excluir { get; set; } = true;
-        public bool AcessoAoSistema { get; set; } = true;
-        [Required]
-        public Guid CargoFuncionarioId { get; set; }
+        public bool Master { get; set; } = true;
+        public Guid? CargoFuncionarioId { get; set; }
     }
 }

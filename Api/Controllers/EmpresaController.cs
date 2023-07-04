@@ -1,5 +1,4 @@
-﻿using Api.Auth;
-using Application.Dtos.EmpresaDtos;
+﻿using Application.Dtos.EmpresaDtos;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -17,7 +16,6 @@ namespace Api.Controllers
             _adicionarEmpresaService = adicionarEmpresaService;
         }
         [HttpPost("/api/AdicionarEmpresa")]
-        //[AuthCustom("AdicionarEmpresa",AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> AdicionarEmpresa([FromBody] EmpresaCreateDto empresaCreateDto)
         {
             try
@@ -43,7 +41,6 @@ namespace Api.Controllers
             }
         }
         [HttpGet("/api/RetornarEmpresaPorId")]
-        [AuthCustom("RetornarEmpresaPorId", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> RetornarEmpresaPorId()
         {
             try

@@ -16,11 +16,11 @@ namespace Domain.Entities
         public bool Excluir { get; private set; }
         public bool AcessoAoSistema { get; private set; }
         public bool Master { get; private set; }
-        public Guid CargoFuncionarioId { get; set; }
-        public CargoFuncionario CargoFuncionario { get; set; } = null!;
-        public Guid EmpresaId { get; set; }
+        public Guid? CargoFuncionarioId { get; private set; }
+        public CargoFuncionario? CargoFuncionario { get; set; } = null!;
+        public Guid EmpresaId { get; private set; }
         public Empresa Empresa { get; set; } = null!;
-        public List<ServicoExecutado> ServicosExecutados { get; set; }
+        public List<ServicoExecutado> ServicosExecutados { get; set; } = null!;
         public Funcionario(string nome,
             string cpf,
             DateTime dataDeNascimento,
@@ -29,7 +29,10 @@ namespace Domain.Entities
             bool adicionar,
             bool editar,
             bool excluir,
-            bool acessoAoSistema)
+            bool acessoAoSistema,
+            Guid empresaId,
+            Guid? cargoFuncionarioId,
+            bool master)
         {
             const string messageError = "É obrigatório informar";
 
@@ -49,6 +52,9 @@ namespace Domain.Entities
             Editar = editar;
             Excluir = excluir;
             AcessoAoSistema = acessoAoSistema;
+            EmpresaId = empresaId;
+            CargoFuncionarioId = cargoFuncionarioId;
+            Master = master;
             Master = false;
             EmailVerificado = false;
             CodigoEmailFerificado = Guid.NewGuid();

@@ -1,8 +1,10 @@
 ﻿using Application.Dtos.FuncionarioDtos;
+using Application.Dtos.Generic;
 using Application.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
+using System.Linq.Expressions;
 
 namespace Application.Services
 {
@@ -43,10 +45,10 @@ namespace Application.Services
                         funcionarioCreateDto.Adicionar,
                         funcionarioCreateDto.Editar,
                         funcionarioCreateDto.Excluir,
-                        funcionarioCreateDto.AcessoAoSistema);
-
-                funcionario.EmpresaId = empresaId;
-                funcionario.CargoFuncionarioId = funcionarioCreateDto.CargoFuncionarioId;
+                        funcionarioCreateDto.AcessoAoSistema,
+                        empresaId,
+                        funcionarioCreateDto.CargoFuncionarioId,
+                        funcionarioCreateDto.Master);
 
                 var result = await _funcionarioRepository.AdicionarFuncionarioAsync(funcionario);
 
@@ -64,6 +66,20 @@ namespace Application.Services
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<PaginacaoResponse<FuncionarioViewDto>> GetPaginacaoAsync(PaginacaoRequest paginacaoRequest)
+        {
+            Expression<Func<Funcionario, bool>> predicateWhere = !string.IsNullOrEmpty(paginacaoRequest.Search) ?
+                   x => x.EmpresaId == paginacaoRequest.EmpresaId && x.DataDeExclusao == null && x.Nome.ToUpper().Contains(paginacaoRequest.Search.ToUpper()) :
+                   x => x.EmpresaId == paginacaoRequest.EmpresaId && x.DataDeExclusao == null;
+
+            Expression<Func<Funcionario, object>> predicateOrder = x => x.DataDeCadastro;
+
+            var paginacao = await _funcionarioRepository.GetPaginationAsync(paginacaoRequest.Page, predicateWhere, predicateOrder, null);
+
+            return new PaginacaoResponse<FuncionarioViewDto>(
+                paginacao.TotalPages, _mapper.Map<List<FuncionarioViewDto>>(paginacao.Values));
         }
     }
 }

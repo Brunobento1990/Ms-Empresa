@@ -41,17 +41,13 @@ namespace Application.Services
 
             var nome = "admin";
 
-            var cargoMaster = new CargoFuncionario("Master");
-            cargoMaster.EmpresaId = empresaId;
+            var cargoMaster = new CargoFuncionario("Master", empresaId);
             await _cargoFuncionarioRepository.AdicionarCargoFuncionarioAsync(cargoMaster);
 
             var funcionario = new Funcionario(
                 nome, "00000000", DateTime.Now,
                 email, passwordHash,
-                true, true, true, true);
-
-            funcionario.CargoFuncionarioId = cargoMaster.Id;
-            funcionario.EmpresaId = empresaId;
+                true, true, true, true, empresaId, null, true);
 
             var addFuncionario = await _funcionarioRepository.AdicionarFuncionarioAsync(funcionario);
 

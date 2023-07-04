@@ -2,6 +2,7 @@
 using Domain.Interfaces;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories
 {
@@ -36,6 +37,18 @@ namespace Infrastructure.Repositories
                 return await _dbContext.Funcionarios
                     .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.Email == email && x.DataDeExclusao == null);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async ValueTask<(List<Funcionario> Values, int TotalPages)> GetPaginationAsync(int page, Expression<Func<Funcionario, bool>> predicateWhere, Expression<Func<Funcionario, object>> predicateOrder, List<Expression<Func<Funcionario, object>>>? predicateInclude)
+        {
+            try
+            {
+                return await _genericRepository.GetPagnationAsync(page, predicateWhere, predicateOrder, predicateInclude);
             }
             catch (Exception ex)
             {

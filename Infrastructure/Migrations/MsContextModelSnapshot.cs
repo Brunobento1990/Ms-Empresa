@@ -204,7 +204,7 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("Adicionar")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("CargoFuncionarioId")
+                    b.Property<Guid?>("CargoFuncionarioId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("CodigoEmailFerificado")
@@ -410,9 +410,7 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Domain.Entities.CargoFuncionario", "CargoFuncionario")
                         .WithMany("Funcionarios")
-                        .HasForeignKey("CargoFuncionarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CargoFuncionarioId");
 
                     b.HasOne("Domain.Entities.Empresa", "Empresa")
                         .WithMany("Funcionarios")

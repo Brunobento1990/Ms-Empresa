@@ -199,7 +199,7 @@ namespace Infrastructure.Migrations
                     Excluir = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     AcessoAoSistema = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Master = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    CargoFuncionarioId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CargoFuncionarioId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     EmpresaId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     DataDeCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DataDeAlteracao = table.Column<DateTime>(type: "datetime(6)", nullable: true),
@@ -212,8 +212,7 @@ namespace Infrastructure.Migrations
                         name: "FK_Funcionarios_CargosFuncionarios_CargoFuncionarioId",
                         column: x => x.CargoFuncionarioId,
                         principalTable: "CargosFuncionarios",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Funcionarios_Empresas_EmpresaId",
                         column: x => x.EmpresaId,

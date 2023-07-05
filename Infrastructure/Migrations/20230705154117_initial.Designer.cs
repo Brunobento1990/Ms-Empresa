@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MsContext))]
-    [Migration("20230701173106_initial")]
+    [Migration("20230705154117_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -207,7 +207,7 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("Adicionar")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("CargoFuncionarioId")
+                    b.Property<Guid?>("CargoFuncionarioId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("CodigoEmailFerificado")
@@ -413,9 +413,7 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Domain.Entities.CargoFuncionario", "CargoFuncionario")
                         .WithMany("Funcionarios")
-                        .HasForeignKey("CargoFuncionarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CargoFuncionarioId");
 
                     b.HasOne("Domain.Entities.Empresa", "Empresa")
                         .WithMany("Funcionarios")

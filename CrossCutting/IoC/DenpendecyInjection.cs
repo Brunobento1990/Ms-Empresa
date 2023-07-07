@@ -26,6 +26,7 @@ namespace CrossCutting.IoC
             services.AddScoped<IGerarTokenService, GerarTokenService>();
             services.AddScoped<IFuncionarioService, FuncionarioService>();
             services.AddScoped<IServicoService, ServicoService>();
+            services.AddScoped<IServicoExecutadoService, ServicoExecutadoService>();
 
             return services;
         }
@@ -81,6 +82,7 @@ namespace CrossCutting.IoC
             services.AddScoped<IHistorioDePagemtosEmpresaRepository, HistorioDePagemtosEmpresaRepository>();
             services.AddScoped<ICargoFuncionarioRepository, CargoFuncionarioRepository>();
             services.AddScoped<IServicoRepository, ServicoRepository>();
+            services.AddScoped<IServicoExecutadoRepository, ServicoExecutadoRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             
             return services;

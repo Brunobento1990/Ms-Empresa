@@ -62,7 +62,7 @@ namespace Api.Controllers
 
                 if (_empresaId == null) return Unauthorized();
 
-                var result = await _servicoExecutadoService.AdicionarServicoExecutadoAsync(servicoCreatedDto);
+                var result = await _servicoExecutadoService.AdicionarServicoExecutadoAsync(servicoCreatedDto, Guid.Parse(_empresaId));
 
                 if (!result) return BadRequest("Ocorreu um erro interno, tente novamente mais tarde.");
 

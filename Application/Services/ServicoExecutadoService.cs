@@ -58,13 +58,23 @@ namespace Application.Services
             List<Expression<Func<ServicoExecutado, object>>> predicateInclude = new List<Expression<Func<ServicoExecutado, object>>>
             {
                 x => x.Servico,
-                x => x.Funcionario 
-            }
+                x => x.Funcionario
+            };
 
-            var paginacao = await _servicoExecutadoRepository.GetPaginationAsync(paginacaoRequest.Page, predicateWhere, predicateOrder, null);
+
+            var paginacao = await _servicoExecutadoRepository.GetPaginationAsync(paginacaoRequest.Page, predicateWhere, predicateOrder, predicateInclude);
+
+            var paginacaoView = paginacao.Values.Select(x => new ServicoExecutadoViewDto
+            {
+                DescricaoServico = x.Servico.Descricao,
+                NomeFuncionario = x.Funcionario.Nome,
+                Preco = x.Preco,
+                Quantidade = x.Quantidade,
+                Id = x.Id
+            }).ToList();
 
             return new PaginacaoResponse<ServicoExecutadoViewDto>(
-                paginacao.TotalPages, _mapper.Map<List<ServicoExecutadoViewDto>>(paginacao.Values));
+                paginacao.TotalPages, paginacaoView);
         }
     }
 }

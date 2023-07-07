@@ -7,11 +7,13 @@ namespace Domain.Entities
         public ServicoExecutado(decimal preco, 
             decimal quantidade, 
             Guid funcionarioId, 
-            Guid servicoId)
+            Guid servicoId,
+            Guid empresaId)
         {
             Validation.ValidationNumberZero(preco, "O preço do serviço deve ser maior que zero.");
             Validation.ValidationNumberZero(quantidade, "A quantidade deve ser maior que zero.");
 
+            EmpresaId = empresaId;
             Preco = preco;
             Quantidade = quantidade;
             FuncionarioId = funcionarioId;
@@ -28,6 +30,7 @@ namespace Domain.Entities
         public Guid FuncionarioId { get; private set; }
         public Funcionario Funcionario { get; set; } = null!;
         public Guid ServicoId { get; private set; }
+        public Guid EmpresaId { get; private set; }
         public Servico Servico { get; set; } = null!;
     }
 }

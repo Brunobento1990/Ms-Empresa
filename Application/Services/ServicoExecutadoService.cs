@@ -22,13 +22,14 @@ namespace Application.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> AdicionarServicoExecutadoAsync(ServicoExecutadoCreateDto servicoExecutadoCreateDto)
+        public async Task<bool> AdicionarServicoExecutadoAsync(ServicoExecutadoCreateDto servicoExecutadoCreateDto, Guid empresaId)
         {
             var servicoExecutado = new ServicoExecutado(
                 servicoExecutadoCreateDto.Preco,
                 servicoExecutadoCreateDto.Quantidade,
                 servicoExecutadoCreateDto.FuncionarioId,
-                servicoExecutadoCreateDto.ServicoId);
+                servicoExecutadoCreateDto.ServicoId,
+                empresaId);
 
             await _servicoExecutadoRepository.AdicionarServicoExecutadoAsync(servicoExecutado);
 
@@ -50,9 +51,15 @@ namespace Application.Services
 
         public async Task<PaginacaoResponse<ServicoExecutadoViewDto>> GetPaginacaoAsync(PaginacaoRequest paginacaoRequest)
         {
-            Expression<Func<ServicoExecutado, bool>> predicateWhere = x => x.DataDeExclusao == null;
+            Expression<Func<ServicoExecutado, bool>> predicateWhere = x => x.DataDeExclusao == null && x.EmpresaId == paginacaoRequest.EmpresaId;
 
             Expression<Func<ServicoExecutado, object>> predicateOrder = x => x.DataDeCadastro;
+
+            List<Expression<Func<ServicoExecutado, object>>> predicateInclude = new List<Expression<Func<ServicoExecutado, object>>>
+            {
+                x => x.Servico,
+                x => x.Funcionario 
+            }
 
             var paginacao = await _servicoExecutadoRepository.GetPaginationAsync(paginacaoRequest.Page, predicateWhere, predicateOrder, null);
 

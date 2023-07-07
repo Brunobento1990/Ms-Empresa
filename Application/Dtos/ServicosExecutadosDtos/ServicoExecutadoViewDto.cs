@@ -8,9 +8,7 @@ namespace Application.Dtos.ServicosExecutadosDtos
         public Guid Id { get; set; }
         public decimal Preco { get; set; }
         public decimal Quantidade { get; set; }
-        public Guid ServicoId { get; set; }
-        public ServicoViewDto Servico { get; set; } = null!;
-        public Guid FuncionarioId { get; set; }
-        public FuncionarioViewDto Funcionario { get; set; } = null!;
+        public string NomeFuncionario{get;set;}
+        public string DescricaoServico{get;set;}
     }
 }

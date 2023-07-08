@@ -12,5 +12,7 @@ namespace Domain.Interfaces
         Task<bool> AdicionarServicoExecutadoAsync(ServicoExecutado servico);
         Task<bool> ExcluirServicoExecutadoAsync(ServicoExecutado servico);
         Task<ServicoExecutado?> GetServicoExecutadoAsync(Guid id);
+        Task<List<ServicoExecutado>> GetRelatorioServicoExecutadoAsync
+            (DateTime dataInicial, DateTime dataFinal, Guid? servicoId, Guid? funcionarioId, Guid empresaId);
     }
 }

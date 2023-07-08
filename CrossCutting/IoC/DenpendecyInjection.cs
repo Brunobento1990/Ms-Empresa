@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.ITextSharp.Relatorios;
 using Application.Services;
 using Application.Token;
 using Domain.Interfaces;
@@ -9,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Net.Http.Headers;
 using System.Text;
 
 namespace CrossCutting.IoC
@@ -27,6 +27,7 @@ namespace CrossCutting.IoC
             services.AddScoped<IFuncionarioService, FuncionarioService>();
             services.AddScoped<IServicoService, ServicoService>();
             services.AddScoped<IServicoExecutadoService, ServicoExecutadoService>();
+            services.AddScoped<IRelatorioServicoExecutado, RelatorioServicoExecutado>();
 
             return services;
         }

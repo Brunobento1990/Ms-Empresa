@@ -62,6 +62,13 @@ namespace Application.Services
             return await _servicoRepository.ExcluirServicoAsync(servico);
         }
 
+        public async Task<List<ServicoViewDto>> GetAllServicoAsync(Guid empresaId)
+        {
+            var servicos = await _servicoRepository.GetAllServicosAsync(empresaId);
+
+            return _mapper.Map<List<ServicoViewDto>>(servicos);
+        }
+
         public async Task<PaginacaoResponse<ServicoViewDto>> GetPaginacaoAsync(PaginacaoRequest paginacaoRequest)
         {
             try

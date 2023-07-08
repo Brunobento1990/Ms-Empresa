@@ -1,6 +1,7 @@
 ﻿using Application.Dtos.Generic;
 using Application.Dtos.ServicosExecutadosDtos;
 using Application.Interfaces;
+using Application.ITextSharp.Relatorios;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
@@ -13,13 +14,15 @@ namespace Application.Services
         private readonly IServicoExecutadoRepository _servicoExecutadoRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IRelatorioServicoExecutado _relatorioServicoExecutado;
 
-        public ServicoExecutadoService(IServicoExecutadoRepository servicoExecutadoRepository,
-            IUnitOfWork unitOfWork, IMapper mapper)
+        public ServicoExecutadoService(IServicoExecutadoRepository servicoExecutadoRepository, 
+            IUnitOfWork unitOfWork, IMapper mapper, IRelatorioServicoExecutado relatorioServicoExecutado)
         {
             _servicoExecutadoRepository = servicoExecutadoRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _relatorioServicoExecutado = relatorioServicoExecutado;
         }
 
         public async Task<bool> AdicionarServicoExecutadoAsync(ServicoExecutadoCreateDto servicoExecutadoCreateDto, Guid empresaId)
@@ -47,6 +50,40 @@ namespace Application.Services
             await _servicoExecutadoRepository.ExcluirServicoExecutadoAsync(servicoExecutado);
 
             return await _unitOfWork.CommitAsync();
+        }
+
+        public async Task<byte[]> GerarRelarotioServicoExecutadoAsync(
+            RelatorioServicoExecutadoRequest relatorioServicoExecutadoRequest, Guid empresaId, string cnpj, string nomeEmpresa)
+        {
+            var servicosExecutados = await _servicoExecutadoRepository
+                .GetRelatorioServicoExecutadoAsync(
+                relatorioServicoExecutadoRequest.DataInicial, 
+                relatorioServicoExecutadoRequest.DataFinal, 
+                relatorioServicoExecutadoRequest.ServicoId,
+                relatorioServicoExecutadoRequest.FuncionarioId,
+                empresaId);
+
+            var relatorioDto = new RelatorioDto
+            {
+                CnpjEmpresa = cnpj,
+                NomeEmpresa = nomeEmpresa
+            };
+
+            relatorioDto.ItensRelatorioDtos = servicosExecutados.Select(x =>
+            {
+                return new ItensRelatorioDto
+                {
+                    DataPrestacao = x.DataDeCadastro,
+                    DescricaoServico = x.Servico.Descricao,
+                    NomeFuncionario = x.Funcionario.Nome,
+                    Preco = x.Preco,
+                    Quantidade = x.Quantidade
+                };
+            }).ToList();
+
+            var pdf = _relatorioServicoExecutado.GerarPdf(relatorioDto);
+
+            return pdf;
         }
 
         public async Task<PaginacaoResponse<ServicoExecutadoViewDto>> GetPaginacaoAsync(PaginacaoRequest paginacaoRequest)

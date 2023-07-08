@@ -1,7 +1,6 @@
 ﻿using Application.Dtos.FuncionarioDtos;
 using Application.Dtos.Generic;
 using Application.Interfaces;
-using Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -92,6 +91,27 @@ namespace Api.Controllers
                 if (paginacaoResponse == null) return BadRequest("Ocorreu um erro interno ao listar os funcionarios.");
 
                 return Ok(paginacaoResponse);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("/api/ListaFuncionario")]
+        public async Task<IActionResult> ListaFuncionario()
+        {
+            try
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                _empresaId = identity?.Claims.FirstOrDefault(c => c.Type == "EmpresaId")?.Value;
+
+                if (_empresaId == null) return Unauthorized();
+
+                var funcionarios = await _funcionarioService.GetAllFuncionarioAsync(Guid.Parse(_empresaId));
+
+                return Ok(funcionarios);
 
             }
             catch (Exception ex)

@@ -12,5 +12,6 @@ namespace Domain.Interfaces
             Expression<Func<T, bool>> predicateWhere,
             Expression<Func<T, object>> predicateOrder,
             List<Expression<Func<T, object>>>? predicateInclude);
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicateWhere);
     }
 }

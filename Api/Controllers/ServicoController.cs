@@ -3,6 +3,7 @@ using Application.Dtos.ServicoDtos;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 
 namespace Api.Controllers
@@ -135,6 +136,26 @@ namespace Api.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("/api/ListaServico")]
+        public async Task<IActionResult> ListaServico()
+        {
+            try
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                _empresaId = identity?.Claims.FirstOrDefault(c => c.Type == "EmpresaId")?.Value;
+
+                if (_empresaId == null) return Unauthorized();
+
+                var servicos = await _servicoService.GetAllServicoAsync(Guid.Parse(_empresaId));
+
+                return Ok(servicos);
+
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }

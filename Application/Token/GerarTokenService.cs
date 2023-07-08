@@ -29,6 +29,7 @@ namespace Application.Token
                  new Claim("Excluir", funcionario.Excluir.ToString()),
                  new Claim("Master", funcionario.Master.ToString()),
                  new Claim("Cnpj", funcionario.Empresa.Cnpj),
+                 new Claim("Empresa", funcionario.Empresa.RazaoSocial),
                  new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
              };
 

@@ -96,5 +96,30 @@ namespace Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("/api/RelatorioServicoPrestado")]
+        public async Task<IActionResult> RelatorioServicoPrestado([FromBody] RelatorioServicoExecutadoRequest relatorioServicoExecutadoRequest)
+        {
+            try
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                _empresaId = identity?.Claims.FirstOrDefault(c => c.Type == "EmpresaId")?.Value;
+
+                var nomeEmpresa = identity?.Claims.FirstOrDefault(c => c.Type == "Empresa")?.Value;
+                var cnpj = identity?.Claims.FirstOrDefault(c => c.Type == "Cnpj")?.Value;
+
+                if (_empresaId == null) return Unauthorized();
+
+                var paginacaoResponse = await _servicoExecutadoService.GerarRelarotioServicoExecutadoAsync(relatorioServicoExecutadoRequest, Guid.Parse(_empresaId), cnpj, nomeEmpresa);
+
+                if (paginacaoResponse == null) return BadRequest("Ocorreu um erro interno ao gerar o relatório.");
+
+                return Ok(paginacaoResponse);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

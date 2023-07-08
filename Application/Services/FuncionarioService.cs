@@ -81,5 +81,12 @@ namespace Application.Services
             return new PaginacaoResponse<FuncionarioViewDto>(
                 paginacao.TotalPages, _mapper.Map<List<FuncionarioViewDto>>(paginacao.Values));
         }
+
+        public async Task<List<FuncionarioViewDto>> GetAllFuncionarioAsync(Guid empresaId)
+        {
+            var funcionarios = await _funcionarioRepository.GetAllFuncionarioAsync(empresaId);
+
+            return _mapper.Map<List<FuncionarioViewDto>>(funcionarios);
+        }
     }
 }

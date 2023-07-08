@@ -30,7 +30,12 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<Funcionario> GetFuncionarioByEmail(string email)
+        public async Task<List<Funcionario>> GetAllFuncionarioAsync(Guid empresaId)
+        {
+            return await _genericRepository.GetAllAsync(x => x.EmpresaId == empresaId && x.DataDeExclusao == null);
+        }
+
+        public async Task<Funcionario?> GetFuncionarioByEmail(string email)
         {
             try
             {

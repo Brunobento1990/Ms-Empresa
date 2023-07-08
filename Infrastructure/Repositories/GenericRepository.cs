@@ -61,6 +61,18 @@ namespace Infrastructure.Repositories
             }
         }
 
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicateWhere)
+        {
+            try
+            {
+                return await _dbContext.Set<T>().Where(predicateWhere).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<T?> GetByIdAsync(Guid id)
         {
             try

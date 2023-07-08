@@ -10,5 +10,6 @@ namespace Application.Interfaces
         Task<ServicoViewDto> GetServicoViewAsync(Guid id);
         Task<bool> ExcluirServicoAsync(Guid id);
         Task<bool> EditarServicoAsync(ServicoEditDto servicoEditDto);
+        Task<List<ServicoViewDto>> GetAllServicoAsync(Guid empresaId);
     }
 }

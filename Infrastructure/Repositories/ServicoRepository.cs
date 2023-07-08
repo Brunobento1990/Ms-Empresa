@@ -37,6 +37,11 @@ namespace Infrastructure.Repositories
             return await _unitOfWork.CommitAsync();
         }
 
+        public async Task<List<Servico>> GetAllServicosAsync(Guid empresaId)
+        {
+            return await _genericRepository.GetAllAsync(x => x.EmpresaId == empresaId && x.DataDeExclusao == null);
+        }
+
         public async Task<Servico?> GetByIdAsync(Guid id)
         {
             return await _genericRepository.GetByIdAsync(id);

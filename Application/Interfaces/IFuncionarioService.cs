@@ -8,5 +8,6 @@ namespace Application.Interfaces
         Task<FuncionarioViewDto> AdicionarFuncionarioAsync(
             FuncionarioCreateDto funcionarioCreateDto, Guid empresaId);
         Task<PaginacaoResponse<FuncionarioViewDto>> GetPaginacaoAsync(PaginacaoRequest paginacaoRequest);
+        Task<List<FuncionarioViewDto>> GetAllFuncionarioAsync(Guid empresaId);
     }
 }

@@ -13,5 +13,6 @@ namespace Domain.Interfaces
         Task<Servico?> GetByIdAsync(Guid id);
         Task<bool> ExcluirServicoAsync(Servico servico);
         Task<bool> EditServicoAsync(Servico servico);
+        Task<List<Servico>> GetAllServicosAsync(Guid empresaId);
     }
 }
